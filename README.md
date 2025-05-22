@@ -54,8 +54,83 @@ Dependencies flow inward, with outer layers depending on inner layers.
 
 ## HTTP Message Structure Standards
 
-For standardized HTTP message structures, refer to:
-[https://www.notion.so/HTTP-1e16643d5c3280fca8d6f5f67185fd4d?pvs=4](https://www.notion.so/HTTP-1e16643d5c3280fca8d6f5f67185fd4d?pvs=4)
+### Message Body Structure
+
+HTTP response messages use JSON format with the following fields:
+
+- **code**: Integer, status code indicating request processing result
+- **msg**: String, describing request processing status or error message
+- **data**: JSON object, carrying response data (optional)
+
+### Field Definitions
+
+| Field | Type | Description | Required |
+|-------|------|-------------|----------|
+| code  | Integer | Status code indicating result | Yes |
+| msg   | String | Status description or error message | Yes |
+| data  | Object | Response data, structure defined by business needs | No |
+
+### Status Code Design
+
+Status codes are 11-digit integers following the structure: `{exception category:3}{exception system:4}{exception custom:4}`
+
+#### Status Code Rules
+
+- **Success**:
+  - `200`: Request successful
+- **Failure**:
+  - `400` or `400XXXXYYYY`: Parameter-related errors
+  - `500` or `500XXXXYYYY`: System-related errors
+
+#### Status Code Validation
+
+- **Range Check**: Ensures status code is within integer range
+- **Structure Check**:
+  - Exception category must be 200, 400, or 500
+  - Exception system and custom parts must be unique
+
+### Examples
+
+#### Success Response
+```json
+{
+  "code": 200,
+  "msg": "Success",
+  "data": {
+    "user_id": 123,
+    "username": "example"
+  }
+}
+```
+
+#### Parameter Error
+```json
+{
+  "code": 40010010001,
+  "msg": "Invalid parameter: user_id is missing",
+  "data": {
+    "error_field": "user_id",
+    "error_detail": "required field"
+  }
+}
+```
+
+#### System Error
+```json
+{
+  "code": 50020030002,
+  "msg": "Database connection failed",
+  "data": {}
+}
+```
+
+### Implementation Details
+
+The HTTP response structure is implemented in `internal/handler/response.go` with:
+- `HTTPResponse` struct
+- `NewSuccessResponse` and `NewErrorResponse` constructors
+- `WriteResponse` helper function
+- `ValidateStatusCode` validation function
 
 ## Components
 
