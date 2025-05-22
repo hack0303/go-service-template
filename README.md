@@ -28,7 +28,12 @@ Dependencies flow inward, with outer layers depending on inner layers.
 ├── pkg/              # Public library code
 ├── migrations/       # Database migrations
 ├── scripts/          # Build and deployment scripts
+├── doc/              # Documentation
+│   ├── config/       # Configuration files for deployments
+│   ├── sql/          # SQL scripts for deployments
+│   └── feat/         # Feature documentation
 ├── test/             # Test files
+│   ├── http/         # REST client test scripts (*.http)
 ├── go.mod            # Go module dependencies
 ├── main.go           # Application entry point
 └── README.md         # Project documentation
@@ -63,6 +68,73 @@ Dependencies flow inward, with outer layers depending on inner layers.
 - **Message Queue**: RabbitMQ support
 - **Email Service**: SMTP email integration
 
+## Docker Setup
+
+### Development with Docker Compose
+
+1. Start the development environment:
+   ```bash
+   docker-compose up
+   ```
+
+2. Access the application:
+   ```bash
+   http://localhost:8080
+   ```
+
+3. Access the database:
+   ```bash
+   psql postgres://user:password@localhost:5432/go_service
+   ```
+
+### Production Build
+
+1. Build the Docker image:
+   ```bash
+   docker build -t go-service-template .
+   ```
+
+2. Run the container:
+   ```bash
+   docker run -p 8080:8080 go-service-template
+   ```
+
+## Makefile Commands
+
+The project includes a Makefile with common development tasks:
+
+```bash
+# Build the application
+make build
+
+# Run the application
+make run
+
+# Run tests
+make test
+
+# Clean build artifacts
+make clean
+
+# Lint the code
+make lint
+
+# Generate Swagger docs
+make swagger
+
+# Run with hot reload using air
+make dev
+
+# Run database migrations
+make migrate
+
+# Build Docker image
+make docker-build
+
+# Run Docker container
+make docker-run
+```
+
 ## Getting Started
 
 1. Clone the repository:
@@ -80,9 +152,18 @@ Dependencies flow inward, with outer layers depending on inner layers.
    cp .env.example .env
    ```
 
-4. Run the application:
+4. Run the application (choose one):
    ```bash
-   go run main.go
+   # Using make
+   make run
+
+   # Directly
+   go run cmd/main.go
+   ```
+
+5. For development with hot reload:
+   ```bash
+   make dev
    ```
 
 ## License
