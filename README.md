@@ -52,6 +52,11 @@ Dependencies flow inward, with outer layers depending on inner layers.
 - **Containerization**: Docker
 - **CI/CD**: GitHub Actions
 
+## HTTP Message Structure Standards
+
+For standardized HTTP message structures, refer to:
+[https://www.notion.so/HTTP-1e16643d5c3280fca8d6f5f67185fd4d?pvs=4](https://www.notion.so/HTTP-1e16643d5c3280fca8d6f5f67185fd4d?pvs=4)
+
 ## Components
 
 ### Core Components
