@@ -5,6 +5,21 @@ import (
 	"net/http"
 )
 
+// @title Go Service Template API
+// @version 1.0
+// @description This is a sample Go service template
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name MIT
+// @license.url https://opensource.org/licenses/MIT
+
+// @host localhost:8080
+// @BasePath /
+
 // HTTPResponse represents the standard HTTP response structure
 type HTTPResponse struct {
 	Code int         `json:"code"`
